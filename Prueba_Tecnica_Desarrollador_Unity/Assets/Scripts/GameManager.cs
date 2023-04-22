@@ -1,22 +1,31 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using Assets.Scripts;
 using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
-
+    #region variables
+    [Header("Camera Behaviour\n")]
     public CameraFollow cameraFollow;
+    [Header("Birds Indes Position\n")]
     int currentBirdIndex;
     public SlingShot slingshot;
+    [Header("GameState\n")]
     [HideInInspector]
     public static GameState CurrentGameState = GameState.Start;
+    public int lvlIndex;
+    [Header("Gamebjects  Lists\n")]
     private List<GameObject> Bricks;
     private List<GameObject> Birds;
     private List<GameObject> Pigs;
+    #endregion
 
+    #region main methods
     void Start()
     {
+        //Documentar acciones al inicio
         CurrentGameState = GameState.Start;
         slingshot.enabled = false;
         Bricks = new List<GameObject>(GameObject.FindGameObjectsWithTag("Brick"));
@@ -27,6 +36,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        //acciones acuerdo al game state
         switch (CurrentGameState)
         {
             case GameState.Start:
@@ -44,16 +54,20 @@ public class GameManager : MonoBehaviour
                     CurrentGameState = GameState.BirdMovingToSlingshot;
                 }
                 break;
+                //se reemplaza application.loadlevel por la libreria actual que 
             case GameState.Won:
             case GameState.Lost:
                 if (Input.GetMouseButtonUp(0))
-                    Application.LoadLevel(Application.loadedLevel);
+                    SceneManager.LoadScene(lvlIndex);
+                    //Application.LoadLevel(Application.loadedLevel);
                 break;
             default:
                 break;
         }
     }
-    
+    #endregion
+
+    #region methods
     private bool TodosLosCerdosDestruidos()
     {
         return Pigs.All(x => x == null);
@@ -91,13 +105,13 @@ public class GameManager : MonoBehaviour
             slingshot.BirdWaitPosition.transform.position) / 10, //duration
             slingshot.BirdWaitPosition.transform.position). //final position
                 setOnCompleteHandler((x) =>
-                        {
-                            x.complete();
-                            x.destroy();
-                            CurrentGameState = GameState.Playing;
-                            slingshot.enabled = true;
-                            slingshot.BirdToThrow = Birds[currentBirdIndex];
-                        });
+                {
+                    x.complete();
+                    x.destroy();
+                    CurrentGameState = GameState.Playing;
+                    slingshot.enabled = true;
+                    slingshot.BirdToThrow = Birds[currentBirdIndex];
+                });
     }
 
     private void Slingshot_BirdThrown(object sender, System.EventArgs e)
@@ -143,6 +157,8 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+    #endregion
+
 
 
 }
