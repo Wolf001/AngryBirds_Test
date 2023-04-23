@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Assets.Scripts;
 
 public class CameraMove : MonoBehaviour
 {
+    private float dragSpeed = 0.01f;
+    private float timeDragStarted;
+    private Vector3 previousPosition = Vector3.zero;
+
+    public SlingShot SlingShot;
     void Update()
     {
         if (SlingShot.slingshotState == SlingshotState.Idle && GameManager.CurrentGameState == GameState.Playing)
@@ -32,9 +36,5 @@ public class CameraMove : MonoBehaviour
         }
     }
 
-    private float dragSpeed = 0.01f;
-    private float timeDragStarted;
-    private Vector3 previousPosition = Vector3.zero;
 
-    public SlingShot SlingShot;
 }

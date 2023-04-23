@@ -4,6 +4,31 @@ using System;
 
 public class SlingShot : MonoBehaviour
 {
+    #region Variables
+    //vector que medira la media entre las partes derecha e izquierda
+    private Vector3 SlingshotMiddleVector;
+
+    [HideInInspector]
+    public SlingshotState slingshotState;
+    //parte derecha e izquierda del charpe
+    public Transform LeftSlingshotOrigin, RightSlingshotOrigin;
+    //resorte del charpe
+    public LineRenderer SlingshotLineRenderer1;
+    public LineRenderer SlingshotLineRenderer2;
+    //Dibuja la trayectoria del ave
+    public LineRenderer TrajectoryLineRenderer;
+    //ave a lanzar
+    [HideInInspector]
+    public GameObject BirdToThrow;
+    //posicion del ave en el charpe
+    public Transform BirdWaitPosition;
+    //velocidad de disparo
+    public float ThrowSpeed;
+    //tiempo despues del disparo
+    [HideInInspector]
+    public float TimeSinceThrown;
+    #endregion
+    #region Main Methods
     void Start()
     {
         SlingshotLineRenderer1.sortingLayerName = "Foreground";
@@ -34,6 +59,7 @@ public class SlingShot : MonoBehaviour
                     }
                 }
                 break;
+            //calcula la distancia entre el ave y el punto medio del charpe
             case SlingshotState.UserPulling:
                 DisplaySlingshotLineRenderers();
 
@@ -51,9 +77,10 @@ public class SlingShot : MonoBehaviour
                         BirdToThrow.transform.position = location;
                     }
                     float distance = Vector3.Distance(SlingshotMiddleVector, BirdToThrow.transform.position);
+                    //muestra la trayectoria del disparo
                     MostrarTrayectoria(distance);
                 }
-                else 
+                else
                 {
                     Set_TrajectoryLineRenderesActive(false);
                     TimeSinceThrown = Time.time;
@@ -69,12 +96,11 @@ public class SlingShot : MonoBehaviour
                         BirdToThrow.transform.positionTo(distance / 10,
                             BirdWaitPosition.transform.position).
                             setOnCompleteHandler((x) =>
-                        {
-                            x.complete();
-                            x.destroy();
-                            InitializeBird();
-                        });
-
+                            {
+                                x.complete();
+                                x.destroy();
+                                InitializeBird();
+                            });
                     }
                 }
                 break;
@@ -83,9 +109,10 @@ public class SlingShot : MonoBehaviour
             default:
                 break;
         }
-
     }
-
+    #endregion
+    #region methods
+    
     private void TirarPajaro(float distance)
     {
         Vector3 velocity = SlingshotMiddleVector - BirdToThrow.transform.position;
@@ -120,6 +147,7 @@ public class SlingShot : MonoBehaviour
     {
         TrajectoryLineRenderer.enabled = active;
     }
+    //Calcula la trayectoria de previsualizacion del disparo
     void MostrarTrayectoria(float distance)
     {
         Set_TrajectoryLineRenderesActive(true);
@@ -139,30 +167,9 @@ public class SlingShot : MonoBehaviour
             segments[i] = segments[0] + segVelocity * time2 + 0.5f * Physics2D.gravity * Mathf.Pow(time2, 2);
         }
 
-        TrajectoryLineRenderer.SetVertexCount(segmentCount);
+        TrajectoryLineRenderer.positionCount = segments.Length;
         for (int i = 0; i < segmentCount; i++)
             TrajectoryLineRenderer.SetPosition(i, segments[i]);
     }
-    
-    private Vector3 SlingshotMiddleVector;
-
-    [HideInInspector]
-    public SlingshotState slingshotState;
-
-    public Transform LeftSlingshotOrigin, RightSlingshotOrigin;
-
-    public LineRenderer SlingshotLineRenderer1;
-    public LineRenderer SlingshotLineRenderer2;
-    
-    public LineRenderer TrajectoryLineRenderer;
-    
-    [HideInInspector]
-    public GameObject BirdToThrow;
-
-    public Transform BirdWaitPosition;
-
-    public float ThrowSpeed;
-
-    [HideInInspector]
-    public float TimeSinceThrown;
+    #endregion
 }

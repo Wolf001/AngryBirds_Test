@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CameraPinchToZoom : MonoBehaviour
 {
+    public float perspectiveZoomSpeed = 0.5f; 
+    public float orthoZoomSpeed = 0.5f;
     void Update()
     {
+        //comparación de coordenadas táctiles cuadro por cuadro y modifica el tamaño de la cámara para simular acercar/alejar
         if (Input.touchCount == 2)
         {
             Touch touchZero = Input.GetTouch(0);
@@ -17,12 +19,13 @@ public class CameraPinchToZoom : MonoBehaviour
             float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
 
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
-
+            //zoom in
             if (GetComponent<Camera>().orthographic)
             {
                 GetComponent<Camera>().orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
                 GetComponent<Camera>().orthographicSize = Mathf.Clamp(GetComponent<Camera>().orthographicSize, 3f, 5f);
             }
+            //zoom out
             else
             {
                 GetComponent<Camera>().fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed;
@@ -31,5 +34,5 @@ public class CameraPinchToZoom : MonoBehaviour
         }
     }
     
-    public float perspectiveZoomSpeed = 0.5f; public float orthoZoomSpeed = 0.5f;
+    
 }
