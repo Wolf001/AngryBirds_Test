@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
-
 public class CameraFixAspectRatio : MonoBehaviour
 {
+    //se ajusta el aspecto de la camara
     void Start()
     {
         Camera camera = GetComponent<Camera>();
