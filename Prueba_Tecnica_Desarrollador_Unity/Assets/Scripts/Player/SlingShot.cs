@@ -31,10 +31,11 @@ public class SlingShot : MonoBehaviour
     #region Main Methods
     void Start()
     {
+        //se establecen los nombres de las capas de las lineas de disparo
         SlingshotLineRenderer1.sortingLayerName = "Foreground";
         SlingshotLineRenderer2.sortingLayerName = "Foreground";
         TrajectoryLineRenderer.sortingLayerName = "Foreground";
-
+        //se establece la posicion inicial de la linea de trayectoria
         slingshotState = SlingshotState.Idle;
         SlingshotLineRenderer1.SetPosition(0, LeftSlingshotOrigin.position);
         SlingshotLineRenderer2.SetPosition(0, RightSlingshotOrigin.position);

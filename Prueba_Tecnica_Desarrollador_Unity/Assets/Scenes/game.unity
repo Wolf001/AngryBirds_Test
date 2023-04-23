@@ -11287,6 +11287,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1379718028}
     m_Modifications:
+    - target: {fileID: 813392916159150046, guid: 4563bf13aaaae284ebca305059a06301,
+        type: 3}
+      propertyPath: ScorePlus
+      value: 
+      objectReference: {fileID: 1171901697}
+    - target: {fileID: 3201568963639975194, guid: 4563bf13aaaae284ebca305059a06301,
+        type: 3}
+      propertyPath: ScorePlus
+      value: 
+      objectReference: {fileID: 1171901697}
+    - target: {fileID: 3299309215920104448, guid: 4563bf13aaaae284ebca305059a06301,
+        type: 3}
+      propertyPath: ScorePlus
+      value: 
+      objectReference: {fileID: 1171901697}
     - target: {fileID: 6839171740274813920, guid: 4563bf13aaaae284ebca305059a06301,
         type: 3}
       propertyPath: m_RootOrder
