@@ -7,6 +7,7 @@ public class Bird : MonoBehaviour
 {
     #region Bird State
     public BirdState State { get; private set; }
+    public GameObject holderHabilitie;
     #endregion
     #region main & fixedUpdate Methods
     void Start()
@@ -39,7 +40,9 @@ public class Bird : MonoBehaviour
         //inicializa sonido
         GetComponent<AudioSource>().Play();
         //mostramos train render
-        GetComponent<TrailRenderer>().enabled = true; 
+        GetComponent<TrailRenderer>().enabled = true;
+        //Activamos la habilidad del ave
+        holderHabilitie.SetActive(true);
         //agregamos gravedad al rigidbody
         GetComponent<Rigidbody2D>().isKinematic = false; 
         //se ajusta a escala normal el radio del ave

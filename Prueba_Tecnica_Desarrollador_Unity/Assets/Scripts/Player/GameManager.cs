@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject uiWin;
     [SerializeField] private GameObject uiLost;
     [SerializeField] private GameObject tapStart;
+    [SerializeField] private GameObject ScoreBar;
     [SerializeField] private GameObject finishClip;
     #endregion
     #region Main methods
@@ -64,11 +65,13 @@ public class GameManager : MonoBehaviour
                 break;
             //caso si hemos ganado o perdido, en ambos se carga la escena index 0
             case GameState.Won:
+                ScoreBar.SetActive(false);
                 uiWin.SetActive(true);
                 finishClip.SetActive(true);
                 break;
             case GameState.Lost:
                 uiLost.SetActive(true);
+                ScoreBar.SetActive(false);
                 finishClip.SetActive(true);
                 break;
             default:
