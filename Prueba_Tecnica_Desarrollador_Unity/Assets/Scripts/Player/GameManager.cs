@@ -16,6 +16,12 @@ public class GameManager : MonoBehaviour
     private List<GameObject> Birds;
     private List<GameObject> Pigs;
     public int indexLvl;
+    //[HideInInspector]
+    [SerializeField]private GameObject fScore;
+    [SerializeField] private GameObject uiWin;
+    [SerializeField] private GameObject uiLost;
+    [SerializeField] private GameObject tapStart;
+    [SerializeField] private GameObject finishClip;
     #endregion
     #region Main methods
     void Start()
@@ -25,7 +31,7 @@ public class GameManager : MonoBehaviour
         //encontramos y asignamos la lista de elementos clave del juego como son aves, estructuras y puercos
         Bricks = new List<GameObject>(GameObject.FindGameObjectsWithTag("Brick"));
         Birds = new List<GameObject>(GameObject.FindGameObjectsWithTag("Bird"));
-        Pigs = new List<GameObject>(GameObject.FindGameObjectsWithTag("Pig"));
+        Pigs = new List<GameObject>(GameObject.FindGameObjectsWithTag("Pig"));        
         //desasignamos el lanzamiento 
         slingshot.BirdThrown -= Slingshot_BirdThrown; 
         //reasignamos lanzamiento
@@ -38,8 +44,11 @@ public class GameManager : MonoBehaviour
         {
             //si es player hace tap sobre pantalla entramos a el game state start
             case GameState.Start:
-                if (Input.GetMouseButtonUp(0))
+                if (Input.GetMouseButtonUp(0)) 
+                {
                     AnimateBirdToSlingshot();
+                    tapStart.SetActive(false);
+                }                                      
                 break;
             case GameState.BirdMovingToSlingshot:
                 break;
@@ -55,9 +64,12 @@ public class GameManager : MonoBehaviour
                 break;
             //caso si hemos ganado o perdido, en ambos se carga la escena index 0
             case GameState.Won:
+                uiWin.SetActive(true);
+                finishClip.SetActive(true);
+                break;
             case GameState.Lost:
-                if (Input.GetMouseButtonUp(0))
-                    SceneManager.LoadScene(indexLvl);
+                uiLost.SetActive(true);
+                finishClip.SetActive(true);
                 break;
             default:
                 break;
@@ -140,25 +152,10 @@ public class GameManager : MonoBehaviour
         Vector2 resizeRatio = new Vector2((float)Screen.width / screenWidth, (float)Screen.height / screenHeight);
         GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(resizeRatio.x, resizeRatio.y, 1.0f));
     }
-    /*
-    //se manda a imprimir en pantalla acorde al game state
-    void OnGUI()
+    
+    public void Reset()
     {
-        AutoResize(800, 480);
-        switch (CurrentGameState)
-        {
-            case GameState.Start:
-                GUI.Label(new Rect(0, 150, 200, 100), "Tap the screen to start");
-                break;
-            case GameState.Won:
-                GUI.Label(new Rect(0, 150, 200, 100), "Has ganado! Tap the screen to restart");
-                break;
-            case GameState.Lost:
-                GUI.Label(new Rect(0, 150, 200, 100), "Has perdido! Tap the screen to restart");
-                break;
-            default:
-                break;
-        }
-    }*/
+        SceneManager.LoadScene(indexLvl);
+    }
     #endregion
 }

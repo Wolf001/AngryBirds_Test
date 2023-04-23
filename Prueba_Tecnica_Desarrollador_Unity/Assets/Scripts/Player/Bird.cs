@@ -37,7 +37,7 @@ public class Bird : MonoBehaviour
     public void AlDispararPajaro()
     {
         //inicializa sonido
-        GetComponent<AudioSource>().Play(); 
+        GetComponent<AudioSource>().Play();
         //mostramos train render
         GetComponent<TrailRenderer>().enabled = true; 
         //agregamos gravedad al rigidbody
